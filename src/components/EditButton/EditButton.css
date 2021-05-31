@@ -1,0 +1,9 @@
+.edit-button {
+  color: #006cff;
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.edit-button:active {
+  color: crimson;
+}

@@ -1,0 +1,16 @@
+.time{
+    font-family:'SFProText';
+    color: rgba(37, 42, 49, 0.15); 
+    font-size: 14px;
+    line-height: 12px;
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+  } 
+
+.time::before{
+    content: url(time.svg);
+    margin-right: 4px;
+    height: 16px;
+    vertical-align: -10%;
+}

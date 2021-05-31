@@ -1,0 +1,14 @@
+.checkbox__symbol,
+.checkbox__symbol--checked {
+  /* display: none;
+    font-size: 15px; */
+  display: block;
+  position: absolute;
+  left: 10px;
+  top: 6px;
+  width: 5px;
+  height: 10px;
+}
+.checkbox__symbol--checked {
+  display: block;
+}

@@ -1,0 +1,10 @@
+.closemodal .buttonIcon {
+  fill: #7a7a7a;
+  transform: rotate(45deg);
+  width: 16px;
+  height: 16px;
+}
+
+.closemodal .buttonIcon:hover {
+  fill: #5e5e5e;
+}

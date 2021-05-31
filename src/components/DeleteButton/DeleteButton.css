@@ -1,0 +1,21 @@
+.delete {
+  position: absolute;
+  left: -44px;
+  top: calc(50% - 14px);
+  height: 28px;
+  width: 28px;
+  border-radius: 100%;
+  box-sizing: border-box;
+  background-color: #ff004c;
+}
+
+.delete::after {
+  position: absolute;
+  left: 8px;
+  top: 13px;
+  content: "";
+  width: 12px;
+  height: 3px;
+  background-color: rgb(255, 255, 255);
+  margin: auto 0;
+}
