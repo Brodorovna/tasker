@@ -3,41 +3,58 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import { taskKeys, UnsortedList } from "./components/UnsortedList/UnsortedList";
 import { AddButton } from "./components/AddButton/AddButton";
+import { AddCategoryButton } from "./components/AddCategoryButton/AddCategoryButton";
 import { EditButton } from "./components/EditButton/EditButton";
 import { EditingProvider } from "./providers/EditingProvider";
 import { CategoryModal } from "./components/CategoryModal/CategoryModal";
-import { Category } from "./components/Category/Category";
-import { categoryList } from "./data/categoryList";
+import { categoryKeys, Category } from "./components/Category/Category";
+import { EditCategory } from "./components/EditCategory/EditCategory";
+
+var randomColor = require("randomcolor");
 
 const DEFAULT_NEW_TASK = {
   [taskKeys.done]: false,
   [taskKeys.text]: "",
   [taskKeys.category]: "",
 };
-const todolist = JSON.parse(localStorage.getItem("todolist")); // счиьтывание списка из локального хранилища
+
+const DEFAULT_NEW_CATEGORY = {
+  [categoryKeys.title]: "",
+  [categoryKeys.color]: "",
+  [categoryKeys.id]: "",
+};
+
+const todolist = JSON.parse(localStorage.getItem("todolist"));
+const categoryStorage = JSON.parse(localStorage.getItem("categoryStorage")); ///////////////////
 
 function App() {
-  const [isCategoryModalOpen, setCategoryModalOpen] = useState(false);
-  const [list, setList] = useState(todolist || []); // list - это массив, который будет обновляться хуком setList, его изначальное значение - либо todolist, либо новый пустой массив
-  const [isEditing, setEditing] = useState(false); //менятся isEditing, дефолтное значение - false
-  // Стрелочная ф-ция, в качестве аргумента принимает newList. Хук seetlist вносит изменения в состояние list-a, эти данные записываются в хранилище
+  const [list, setList] = useState(todolist || []);
+  const [categoryList, setCategoryList] = useState(categoryStorage || []); ////!!!!!!!!!!!!!!!!
+
+  const [isEditing, setEditing] = useState(false);
+
   const saveChanges = (newList) => {
     setList(newList);
     localStorage.setItem("todolist", JSON.stringify(newList));
   };
-  const [activeTask, setActiveTask] = useState();
-  const [activeCategoryId, setActiveCategoryId] = useState();
 
-  const renderItem = (
-    //Создание элемента списка. Стрелочная ф-ция, в качестве аргумента берёт item и key.
-    item,
-    key
-  ) => (
-    <UnsortedList //Импортированный компонент и его пропсы
-      key={item.id} //id каждого элемента массива выступает в качестве ключа
-      index={key} // ??? пропс index = key (потому что через DOM мы не дотянемся до id? ) ??? НО ОН ЖЕ ВСЁ РАВНО НАКИДЫВАЕТСЯ САМ :( )
-      {...item} // все остальные элементы массива
-      updateList={updateList} // в качестве пропсов вычтупают ф-кции, это норма.
+  const saveCategoriesChanges = (newCategoryList) => {
+    setCategoryList(newCategoryList);
+    localStorage.setItem("categoryStorage", JSON.stringify(newCategoryList));
+  };
+
+  const [isCategoryModalOpen, setCategoryModalOpen] = useState(false); // clear
+
+  const [activeTask, setActiveTask] = useState(); // clear
+
+  const [activeCategoryId, setActiveCategoryId] = useState(); // so-so
+
+  const renderItem = (item, key) => (
+    <UnsortedList
+      key={item.id}
+      index={key}
+      {...item}
+      updateList={updateList}
       deleteTask={deleteTask}
       setCategoryModalOpen={setCategoryModalOpen}
       setActiveTask={setActiveTask}
@@ -53,11 +70,31 @@ function App() {
     saveChanges([...list]);
   };
 
+  ////////////////////////////////
+  const updateCategoryList = (key, value) => {
+    categoryList[key] = value;
+    setCategoryList([...categoryList]);
+  };
+
   const addTask = () => {
     const id = nanoid();
     const newList = [{ ...DEFAULT_NEW_TASK, id }, ...list];
     saveChanges(newList);
   };
+
+  ///////////////////////////
+  const addCategory = () => {
+    const id = nanoid();
+    const color = randomColor();
+    const newCategoryList = [
+      { ...DEFAULT_NEW_CATEGORY, color, id },
+      ...categoryList,
+    ];
+    saveCategoriesChanges(newCategoryList);
+  };
+
+  // addTask();
+  // addCategory();
 
   const deleteTask = (id) => {
     const newList = list.filter((item) => item.id !== id);
@@ -72,6 +109,7 @@ function App() {
 
   const renderCategoryItem = (item) => (
     <Category
+      id={nanoid}
       {...item}
       key={item.id}
       setActiveCategoryId={setActiveCategoryId}
@@ -102,11 +140,13 @@ function App() {
           <ul className="todo">
             <div className="App">{list.map(renderItem)}</div>
           </ul>
-          <div className="Cateegories">
+          <div className="Categories">
             {categoryList.map(renderCategoryItem)}
           </div>
         </main>
         <AddButton onClick={addTask} />
+        <AddCategoryButton onClick={addCategory} />
+        <EditCategory onClick={addCategory} />
         {isCategoryModalOpen && (
           <CategoryModal
             activeCategoryId={activeTask.category}
