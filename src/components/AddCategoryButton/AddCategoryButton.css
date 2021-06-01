@@ -1,0 +1,26 @@
+button.addCategory {
+  background-color: #fff;
+  border-radius: 100%;
+  width: 44px;
+  height: 44px;
+  border: none;
+  z-index: 999;
+  position: absolute;
+  bottom: 90px;
+  right: 16px;
+  box-shadow: 0px 24px 32px rgba(21, 35, 56, 0.16);
+  cursor: pointer;
+  transition: background-color 0.5s ease-in-out;
+}
+
+.buttonIcon {
+  fill: #0066b9;
+}
+
+button.add:hover {
+  background-color: #0066b9;
+}
+
+button.add:hover .buttonIcon {
+  fill: white;
+}

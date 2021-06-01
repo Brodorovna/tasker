@@ -1,8 +1,10 @@
 import "./CategoryModal.css";
-import { categoryList } from "../../data/categoryList";
+// import { categoryList } from "../../data/categoryList";
 import { DotColor } from "../CategoryDot/CategoryDot";
 import { CheckIcon } from "../CheckIcon/CheckIcon";
 import { CloseButton } from "../CloseModal/CloseModal";
+
+const categoryList = JSON.parse(localStorage.getItem("categoryStorage")); ///////////////////
 
 const CategoryItem = ({ id, title, color, isActive, onClick }) => {
   const handleClick = () => {

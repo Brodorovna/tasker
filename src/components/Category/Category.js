@@ -1,5 +1,11 @@
 import "./Category.css";
 
+export const categoryKeys = {
+  title: "title",
+  color: "color",
+  id: "id",
+};
+
 export const Category = ({
   id,
   title,
