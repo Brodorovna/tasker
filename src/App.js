@@ -8,7 +8,8 @@ import { EditButton } from "./components/EditButton/EditButton";
 import { EditingProvider } from "./providers/EditingProvider";
 import { CategoryModal } from "./components/CategoryModal/CategoryModal";
 import { categoryKeys, Category } from "./components/Category/Category";
-import { EditCategory } from "./components/EditCategory/EditCategory";
+import { EditCategoryModal } from "./components/EditCategoryModal/EditCategoryModal";
+import { categoryStorage } from "./components/CategoryList/CategoryList";
 
 var randomColor = require("randomcolor");
 
@@ -18,6 +19,7 @@ const DEFAULT_NEW_TASK = {
   [taskKeys.category]: "",
 };
 
+// !!!!!!!!!!!!!!!!!!!
 const DEFAULT_NEW_CATEGORY = {
   [categoryKeys.title]: "",
   [categoryKeys.color]: "",
@@ -25,19 +27,17 @@ const DEFAULT_NEW_CATEGORY = {
 };
 
 const todolist = JSON.parse(localStorage.getItem("todolist"));
-const categoryStorage = JSON.parse(localStorage.getItem("categoryStorage")); ///////////////////
 
 function App() {
   const [list, setList] = useState(todolist || []);
   const [categoryList, setCategoryList] = useState(categoryStorage || []); ////!!!!!!!!!!!!!!!!
-
-  const [isEditing, setEditing] = useState(false);
 
   const saveChanges = (newList) => {
     setList(newList);
     localStorage.setItem("todolist", JSON.stringify(newList));
   };
 
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const saveCategoriesChanges = (newCategoryList) => {
     setCategoryList(newCategoryList);
     localStorage.setItem("categoryStorage", JSON.stringify(newCategoryList));
@@ -47,6 +47,7 @@ function App() {
 
   const [activeTask, setActiveTask] = useState(); // clear
 
+  // !!!!!!!!!!!!!!!!!!!
   const [activeCategoryId, setActiveCategoryId] = useState(); // so-so
 
   const renderItem = (item, key) => (
@@ -70,7 +71,7 @@ function App() {
     saveChanges([...list]);
   };
 
-  ////////////////////////////////
+  //!!!!!!!!!!!!!!!!!!!!!!!
   const updateCategoryList = (key, value) => {
     categoryList[key] = value;
     setCategoryList([...categoryList]);
@@ -82,7 +83,7 @@ function App() {
     saveChanges(newList);
   };
 
-  ///////////////////////////
+  //!!!!!!!!!!!!!!!!!
   const addCategory = () => {
     const id = nanoid();
     const color = randomColor();
@@ -102,11 +103,29 @@ function App() {
     saveChanges(newList);
   };
 
+  const deleteCategory = (id) => {
+    const newCategoryList = categoryList.filter((item) => item.id !== id);
+    setCategoryList(newCategoryList);
+    saveCategoriesChanges(newCategoryList);
+  };
+
   const changeCategory = (categoryId) => {
     updateList(activeTask.index, taskKeys.category, categoryId);
     closeCategoryModal();
   };
 
+  const [isEditCategoryModalOpen, setisEditCategoryModalOpen] = useState(false); // clear
+
+  const editCategory = (categoryId) => {
+    console.log("Edit", categoryId);
+    <EditCategoryModal
+      activeCategoryId={categoryId}
+      // onClick={onClick}
+      closeModal={closeCategoryModal}
+    />;
+  };
+
+  // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   const renderCategoryItem = (item) => (
     <Category
       id={nanoid}
@@ -114,6 +133,8 @@ function App() {
       key={item.id}
       setActiveCategoryId={setActiveCategoryId}
       isActive={item.id === activeCategoryId}
+      deleteCategory={deleteCategory}
+      editCategory={editCategory}
     />
   );
 
@@ -146,7 +167,6 @@ function App() {
         </main>
         <AddButton onClick={addTask} />
         <AddCategoryButton onClick={addCategory} />
-        <EditCategory onClick={addCategory} />
         {isCategoryModalOpen && (
           <CategoryModal
             activeCategoryId={activeTask.category}

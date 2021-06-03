@@ -1,3 +1,40 @@
-.category {
+.category-wrapper {
+  margin-left: -20px;
+  display: flex;
+  justify-content: space-between;
+  height: 55px;
+  margin-top: 10px;
+}
+
+.single-category {
   padding: 12px;
+  border-radius: 0 5px 5px 0;
+  width: 310px;
+}
+
+.deleteCategory svg {
+  width: 20px;
+  height: 20px;
+}
+
+.deleteCategory {
+  background-color: crimson;
+  fill: aliceblue;
+  border-radius: 5px 0 0 5px;
+  width: 25px;
+  height: 25px;
+  margin-bottom: 5px;
+}
+
+.editCategory {
+  background-color: rgb(75, 192, 75);
+  fill: aliceblue;
+  border-radius: 5px 0 0 5px;
+  width: 25px;
+  height: 25px;
+  align-self: flex-end;
+}
+
+.editCategory svg {
+  margin: 5px 0 0 7px;
 }

@@ -3,7 +3,7 @@ import "./CategoryModal.css";
 import { DotColor } from "../CategoryDot/CategoryDot";
 import { CheckIcon } from "../CheckIcon/CheckIcon";
 import { CloseButton } from "../CloseModal/CloseModal";
-import { categoryStorage } from "../../components/CategoryList/CategoryList";
+import { categoryStorage } from "../CategoryList/CategoryList";
 
 const categoryList = categoryStorage;
 const CategoryItem = ({ id, title, color, isActive, onClick }) => {
