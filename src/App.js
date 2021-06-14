@@ -13,6 +13,10 @@ import { categoryStorage } from "./components/CategoryList/CategoryList";
 
 var randomColor = require("randomcolor");
 
+// const CategoryList = () => {
+
+// };
+
 const DEFAULT_NEW_TASK = {
   [taskKeys.done]: false,
   [taskKeys.text]: "",

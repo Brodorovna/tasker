@@ -1,10 +1,10 @@
 .todoName {
   border: none;
-  width: 271px;
   resize: none;
   font-size: 18px;
   letter-spacing: -0.02em;
   font-family: inherit;
+  overflow: hidden;
 }
 
 .todoName:focus-visible {
