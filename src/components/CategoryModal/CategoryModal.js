@@ -1,11 +1,8 @@
 import "./CategoryModal.css";
-// import { categoryList } from "../../data/categoryList";
 import { DotColor } from "../CategoryDot/CategoryDot";
 import { CheckIcon } from "../CheckIcon/CheckIcon";
 import { CloseButton } from "../CloseModal/CloseModal";
-import { categoryStorage } from "../../components/CategoryList/CategoryList";
 
-const categoryList = categoryStorage;
 const CategoryItem = ({ id, title, color, isActive, onClick }) => {
   const handleClick = () => {
     onClick(id);
@@ -23,7 +20,12 @@ const CategoryItem = ({ id, title, color, isActive, onClick }) => {
   );
 };
 
-export const CategoryModal = ({ activeCategoryId, onClick, closeModal }) => {
+export const CategoryModal = ({
+  activeCategoryId,
+  onClick,
+  closeModal,
+  categoryList,
+}) => {
   const renderCategory = (category) => (
     <CategoryItem
       key={category.id}

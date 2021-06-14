@@ -4,6 +4,5 @@ import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 var randomColor = require("randomcolor");
 
-export const categoryStorage = JSON.parse(
-  localStorage.getItem("categoryStorage")
-);
+export const categoryStorage =
+  JSON.parse(localStorage.getItem("categoryStorage")) || [];

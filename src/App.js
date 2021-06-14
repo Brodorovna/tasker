@@ -26,7 +26,7 @@ const DEFAULT_NEW_CATEGORY = {
   [categoryKeys.id]: "",
 };
 
-const todolist = JSON.parse(localStorage.getItem("todolist"));
+const todolist = JSON.parse(localStorage.getItem("todolist")) || [];
 
 function App() {
   const [list, setList] = useState(todolist || []);
@@ -50,17 +50,21 @@ function App() {
   // !!!!!!!!!!!!!!!!!!!
   const [activeCategoryId, setActiveCategoryId] = useState(); // so-so
 
-  const renderItem = (item, key) => (
-    <UnsortedList
-      key={item.id}
-      index={key}
-      {...item}
-      updateList={updateList}
-      deleteTask={deleteTask}
-      setCategoryModalOpen={setCategoryModalOpen}
-      setActiveTask={setActiveTask}
-    />
-  );
+  const renderItem = (item, key) => {
+    if (activeCategoryId && item.category !== activeCategoryId) return null; //рендерятся только те элементы, у которых айди категорий соответствует выбранной категории (рботает только в случае, если категория выбрана)
+    return (
+      <UnsortedList
+        key={item.id}
+        index={key}
+        {...item}
+        updateList={updateList}
+        deleteTask={deleteTask}
+        setCategoryModalOpen={setCategoryModalOpen}
+        setActiveTask={setActiveTask}
+        categoryList={categoryList}
+      />
+    );
+  };
 
   const closeCategoryModal = () => {
     setCategoryModalOpen(false);
@@ -138,16 +142,16 @@ function App() {
     />
   );
 
-  useEffect(() => {
-    if (!activeCategoryId) {
-      setList(todolist);
-      return;
-    }
-    const newList = todolist.filter(
-      (item) => item.category === activeCategoryId
-    );
-    setList(newList);
-  }, [activeCategoryId]);
+  // useEffect(() => {
+  //   if (!activeCategoryId) {
+  //     setList(todolist);
+  //     return;
+  //   }
+  //   const newList = todolist.filter(
+  //     (item) => item.category === activeCategoryId
+  //   );
+  //   setList(newList);
+  // }, [activeCategoryId]);
   return (
     <EditingProvider>
       <section>
@@ -172,6 +176,7 @@ function App() {
             activeCategoryId={activeTask.category}
             onClick={changeCategory}
             closeModal={closeCategoryModal}
+            categoryList={categoryList}
           />
         )}
       </section>

@@ -1,5 +1,4 @@
 import "./CategoryModal.css";
-// import { categoryList } from "../../data/categoryList";
 import { DotColor } from "../CategoryDot/CategoryDot";
 import { CheckIcon } from "../CheckIcon/CheckIcon";
 import { CloseButton } from "../CloseModal/CloseModal";

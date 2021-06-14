@@ -2,12 +2,9 @@ import "./UnsortedList.css";
 import { Checkbox } from "../Checkbox/Checkbox";
 import { TodoName } from "../TodoName/TodoName";
 import { DotColor } from "../CategoryDot/CategoryDot";
-// import { categoryList } from "../../data/categoryList";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
 import { useContext } from "react";
 import { EditingContext } from "../../providers/EditingProvider";
-
-const categoryList = JSON.parse(localStorage.getItem("categoryStorage")); ///////////////////
 
 export const taskKeys = {
   done: "done",
@@ -25,6 +22,7 @@ export const UnsortedList = ({
   id,
   setCategoryModalOpen,
   setActiveTask,
+  categoryList,
 }) => {
   const { isEditing } = useContext(EditingContext);
   const currentCategory = categoryList.find(
@@ -44,6 +42,7 @@ export const UnsortedList = ({
   const openCategoryModal = () => {
     setCategoryModalOpen(true);
     setActiveTask({ category, index });
+    categoryList = { categoryList };
   };
 
   return (
