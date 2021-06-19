@@ -3,14 +3,11 @@ import { Checkbox } from "../Checkbox/Checkbox";
 import { TodoName } from "../TodoName/TodoName";
 import { DotColor } from "../CategoryDot/CategoryDot";
 import { DeleteButton } from "../DeleteButton/DeleteButton";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { EditingContext } from "../../providers/EditingProvider";
-
-export const taskKeys = {
-  done: "done",
-  text: "text",
-  category: "category",
-};
+import { TASK_KEY } from "../../constants";
+import { CategoryModal } from "../CategoryModal/CategoryModal";
+import { DataContext } from "../../providers/DataProvider";
 
 export const UnsortedList = ({
   done,
@@ -20,19 +17,23 @@ export const UnsortedList = ({
   index,
   deleteTask,
   id,
-  setCategoryModalOpen,
-  setActiveTask,
-  categoryList,
 }) => {
+  const [isCategoryModalOpen, setCategoryModalOpen] = useState(false); // clear
   const { isEditing } = useContext(EditingContext);
+  const { categoryList } = useContext(DataContext);
   const currentCategory = categoryList.find(
     (categoryItem) => categoryItem.id === category
   );
   const handleState = (checked) => {
-    updateList(index, "done", checked);
+    updateList(index, TASK_KEY.done, checked);
   };
   const handleText = (text) => {
-    updateList(index, "text", text);
+    updateList(index, TASK_KEY.text, text);
+  };
+
+  const handleCategory = (value) => {
+    updateList(index, TASK_KEY.category, value);
+    closeCategoryModal();
   };
 
   const handleDelete = () => {
@@ -41,8 +42,10 @@ export const UnsortedList = ({
 
   const openCategoryModal = () => {
     setCategoryModalOpen(true);
-    setActiveTask({ category, index });
-    categoryList = { categoryList };
+  };
+
+  const closeCategoryModal = () => {
+    setCategoryModalOpen(false);
   };
 
   return (
@@ -55,6 +58,13 @@ export const UnsortedList = ({
       <TodoName text={text} handleText={handleText}></TodoName>
       <div onClick={openCategoryModal}>
         {<DotColor color={currentCategory && currentCategory.color} />}
+        {isCategoryModalOpen && (
+          <CategoryModal
+            activeCategoryId={category}
+            onClick={handleCategory}
+            closeModal={closeCategoryModal}
+          />
+        )}
       </div>
     </li>
   );

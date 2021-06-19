@@ -1,29 +1,15 @@
 .category-wrapper {
-  margin-left: -20px;
   display: flex;
-  justify-content: space-between;
-  height: 55px;
   margin-top: 10px;
+  margin-right: 16px;
+  position: relative;
+  flex-direction: column;
 }
 
 .single-category {
   padding: 12px;
-  border-radius: 0 5px 5px 0;
-  width: 310px;
-}
-
-.deleteCategory svg {
-  width: 20px;
-  height: 20px;
-}
-
-.deleteCategory {
-  background-color: crimson;
-  fill: aliceblue;
-  border-radius: 5px 0 0 5px;
-  width: 25px;
-  height: 25px;
-  margin-bottom: 5px;
+  border-radius: 5px;
+  height: 30px;
 }
 
 .editCategory {
